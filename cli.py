@@ -10,7 +10,10 @@ def client():
 	
 	data = "Test string sent from the client"
 	
-	bytesSent = 0
+	bytesSent = clientSocket.send("Sending") #temporary solution to keep track of the number of bytes sent over the buffer
+						 #Need to clear the buffer so that when it is trying to send the real message the message size
+						 #count is not wrong
+						 #same situation for serv.py
 	
 	while bytesSent != len(data):
 		bytesSent += clientSocket.send(data[bytesSent:])
