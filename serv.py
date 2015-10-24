@@ -19,13 +19,13 @@ def server():
 		
 		tmpBuff = ""
 		data = 0
-		while len(data) != 40:
+		while data != 40:
 			tmpBuff = connectionSocket.recv(40)
 			
 			if not tmpBuff:
 				break
-			
-			data +=tmpBuff
+			print("Message from client: {}".format(tmpBuff.decode('utf-8')))
+			data += len(tmpBuff)
 			
 		print(data)
 		
