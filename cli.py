@@ -1,23 +1,30 @@
 from socket import *
+import sys
 
 def client():
+	#serverName = sys.argv[1]
+	#serverPort = sys.argv[2]
+	
 	serverName = ''
 	serverPort = 12000
 	
-	clientSocket = socket(AF_INET, SOCK_STREAM)
+	#establish control socket 
+	controlSocket = socket(AF_INET, SOCK_STREAM)
 	
-	clientSocket.connect((serverName, serverPort))
+	#establish data socket
+	dataSocket = socket(AF_INET, SOCK_STREAM)
+	
+	#bind data socket to server
+	dataSocket = connect((serverName, serverPort))
+	
+	##bind control socket to server
+	controlSocket.connect((serverName, serverPort))
 	
 	data = "Test string sent from the client"
-	
 	bytesSent = 0
 	while bytesSent != len(data):
-		bytesSent += clientSocket.send(data[bytesSent:].encode('utf-8'))
+		bytesSent += controlSocket.send(data[bytesSent:].encode('utf-8'))
 	
-	clientSocket.close()
-
-
-def handle_user_input():
 	option = None
 	while option != "quit":
 		print("ftp>", end="")
@@ -27,6 +34,10 @@ def handle_user_input():
 		
 		if option == "get":
 			file_name = spec[1]
+			message = input("Input a message to send the server")
+			bytesSent = 0
+			while bytesSent != len(message):
+				bytesSent += controlSocket.send(message[bytesSent:].encode('utf-8'))
 			
 		elif option == "put":
 			file_name = spec[1]
@@ -34,8 +45,16 @@ def handle_user_input():
 		elif option == "ls":
 			print("All of the files")
 			
+		elif option == "quit":
+			clientSocket.close()
+			dataSocket.close()
+			
 		else:
 			print("invalid command")
+	
+
+
+
 		
 		
 	
@@ -46,4 +65,4 @@ def show_input_format():
 	print("ftp> quit (disconnects from the server and exits)")
 	
 if __name__ == "__main__":
-	handle_user_input()
+	client()
