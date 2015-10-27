@@ -15,7 +15,7 @@ def client():
 	dataSocket = socket(AF_INET, SOCK_STREAM)
 	
 	#bind data socket to server
-	dataSocket = connect((serverName, serverPort))
+	dataSocket.connect((serverName, serverPort))
 	
 	##bind control socket to server
 	controlSocket.connect((serverName, serverPort))
