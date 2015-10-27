@@ -12,18 +12,20 @@ def client():
 	controlSocket = socket(AF_INET, SOCK_STREAM)
 	
 	#establish data socket
-	dataSocket = socket(AF_INET, SOCK_STREAM)
+	#dataSocket = socket(AF_INET, SOCK_STREAM)
 	
 	#bind data socket to server
-	dataSocket.connect((serverName, serverPort))
+	#dataSocket.connect((serverName, serverPort))
 	
 	##bind control socket to server
 	controlSocket.connect((serverName, serverPort))
 	
 	data = "Test string sent from the client"
 	bytesSent = 0
+	#fileSent = False
 	while bytesSent != len(data):
 		bytesSent += controlSocket.send(data[bytesSent:].encode('utf-8'))
+		
 	
 	option = None
 	while option != "quit":
@@ -37,6 +39,7 @@ def client():
 			message = input("Input a message to send the server")
 			bytesSent = 0
 			while bytesSent != len(message):
+				print(bytesSent)
 				bytesSent += controlSocket.send(message[bytesSent:].encode('utf-8'))
 			
 		elif option == "put":
@@ -47,10 +50,11 @@ def client():
 			
 		elif option == "quit":
 			clientSocket.close()
-			dataSocket.close()
+			#dataSocket.close()
 			
 		else:
 			print("invalid command")
+	clientSocket.close()
 	
 
 
