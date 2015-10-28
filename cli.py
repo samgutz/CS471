@@ -18,14 +18,7 @@ def client():
 	#dataSocket.connect((serverName, serverPort))
 	
 	##bind control socket to server
-	controlSocket.connect((serverName, serverPort))
-	
-	data = "Test string sent from the client"
-	bytesSent = 0
-	#fileSent = False
-	while bytesSent != len(data):
-		bytesSent += controlSocket.send(data[bytesSent:].encode('utf-8'))
-		
+	controlSocket.connect((serverName, serverPort))	
 	
 	option = None
 	while option != "quit":
@@ -36,11 +29,23 @@ def client():
 		
 		if option == "get":
 			file_name = spec[1]
-			message = input("Input a message to send the server")
+			#message = input("Input a message to send the server")
+			
+			#establish data socket
+			#dataSocket = socket(AF_INET, SOCK_STREAM)
+	
+			#bind data socket to server
+			#dataSocket.bind((serverName, serverPort))
+			
+			#dataSocket.lister(1)
+			
+			
 			bytesSent = 0
 			while bytesSent != len(message):
 				print(bytesSent)
 				bytesSent += controlSocket.send(message[bytesSent:].encode('utf-8'))
+				
+			
 			
 		elif option == "put":
 			file_name = spec[1]
