@@ -11,13 +11,7 @@ def client():
 	#establish control socket 
 	controlSocket = socket(AF_INET, SOCK_STREAM)
 	
-	#establish data socket
-	#dataSocket = socket(AF_INET, SOCK_STREAM)
-	
-	#bind data socket to server
-	#dataSocket.connect((serverName, serverPort))
-	
-	##bind control socket to server
+	#establish control socket
 	controlSocket.connect((serverName, serverPort))	
 	
 	option = None
@@ -26,24 +20,34 @@ def client():
 		spec = input()
 		spec = spec.split()
 		option = spec[0]
+		argument = spec[0] + " " + spec[1]
+		
 		
 		if option == "get":
-			file_name = spec[1]
-			#message = input("Input a message to send the server")
+		
 			
 			#establish data socket
-			#dataSocket = socket(AF_INET, SOCK_STREAM)
+			dataSocket = socket(AF_INET, SOCK_STREAM)
 	
 			#bind data socket to server
-			#dataSocket.bind((serverName, serverPort))
+			dataSocket.bind((serverName, 22))
 			
-			#dataSocket.lister(1)
+			#make the client listen for initial file size from server
+			dataSocket.listen(1)
 			
+			listenSock = dataSocket.accept()
+			
+			controlSocket.send(argument.encode())
+			
+			actual_file_size = listenSock.recv(10)
+			
+			
+			print("Size of file sent from server: {}".format(actual_file_size))
 			
 			bytesSent = 0
-			while bytesSent != len(message):
-				print(bytesSent)
-				bytesSent += controlSocket.send(message[bytesSent:].encode('utf-8'))
+			#while bytesSent != len(message):
+				#print(bytesSent)
+				#bytesSent += dataSocket.send(message[bytesSent:].encode('utf-8'))
 				
 			
 			
