@@ -3,8 +3,8 @@
 # CPSC 471 Assignment 1
 #
 # Kenneth Gunderson, Section 1 (KGunderson.csu.fullerton.edu)
-# Add Name, Section, and Email
-# Add Name, Section, and Email
+# Sam Gutierrez, Section 2, and sam_gutz@yahoo.com
+# Bastian Awischus, Section 2 (bawischus@csu.fullerton.edu)
 #
 # FTP client and server.
 # This is the file transfer module.

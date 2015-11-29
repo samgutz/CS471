@@ -4,7 +4,7 @@
 #
 # Kenneth Gunderson Section 1 (KGunderson@csu.fullerton.edu)
 # Sam Gutierrez, Section 2, and sam_gutz@yahoo.com
-# Add Name,Section, and Email
+# Bastian Awischus, Section 2 (bawischus@csu.fullerton.edu)
 #
 # FTP client and server.
 # This is the server.
