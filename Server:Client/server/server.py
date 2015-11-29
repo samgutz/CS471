@@ -3,7 +3,7 @@
 # CPSC 471 Assignment 1
 #
 # Kenneth Gunderson Section 1 (KGunderson@csu.fullerton.edu)
-# Add Name,Section, and Email
+# Sam Gutierrez, Section 2, and sam_gutz@yahoo.com
 # Add Name,Section, and Email
 #
 # FTP client and server.
@@ -233,10 +233,21 @@ def list_files():
 #----------------------
 def send_to_client( cmd_socket, server_response ):
     # Send the size of the message to be transmitted.
-    send_msg_size( cmd_socket, len( server_response ) )
+    sent = False
+    while sent == False:
+    	    total_sent = send_msg_size( cmd_socket, len( server_response ) )
+    	    if total_sent == len(str( server_response ).zfill( MSG_SIZE )):
+    	    	    sent = True
+    sent = False
+    
+    # Send the response until all data has been sent
+    while sent == False:
+    	    total_sent =  send_message( cmd_socket, server_response )
+    	    if total_sent == len(server_response):
+    	    	    sent = True
 
-    # Send the response.
-    send_message( cmd_socket, server_response )
+    
+    
     
 #====================
 # END: send_to_client
@@ -257,7 +268,8 @@ def send_msg_size( cmd_socket, msg_len ):
     str_msg_len = str( str_msg_len ).zfill( MSG_SIZE )
 
     # Send the data.
-    send_message( cmd_socket, str_msg_len )
+    total_sent = send_message( cmd_socket, str_msg_len )
+    return total_sent
     
 #====================
 # END: send_msg_size

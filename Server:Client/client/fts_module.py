@@ -3,7 +3,7 @@
 # CPSC 471 Assignment 1
 #
 # Kenneth Gunderson, Section 1 (KGunderson.csu.fullerton.edu)
-# Add Name, Section, and Email
+# Sam Gutierrez, Section 2, and sam_gutz@yahoo.com
 # Add Name, Section, and Email
 #
 # FTP client and server.
@@ -54,15 +54,26 @@ class file_transfer_system:
         self.file_size = file_info[1]
         
         # Send the size of the file name.
-        self.send_msg_size( len( self.file_name ) )
+        sent = False
+        while sent == False:
+        	total_sent = self.send_msg_size( len( self.file_name ) )
+        	if total_sent == len(str( self.file_name ).zfill( MSG_SIZE )):
+        		sent = True
 
         # Send the file name.
         # Encode the string as bytes before sending.
-        self.send_data( self.file_name.encode() )
+        sent = False
+        while sent == False:
+        	total_sent = self.send_data( self.file_name.encode() )
+        	if total_sent == len(self.file_name.encode()):
+        		sent = True
 
         # Send the size of the file.
-        self.send_msg_size( self.file_size )
-
+        sent = False
+        while sent == False:
+        	total_sent = self.send_msg_size( self.file_size )
+        	if total_sent == self.file_size:
+        		sent = True
 
         # Send the file.
         # Create a file handler and open a new file.
@@ -81,7 +92,12 @@ class file_transfer_system:
                 send_buffer = fh.read( self.file_chunk )
 
                 # Send the chunk in the buffer.
-                self.send_data( send_buffer )
+                
+                sent = False
+                while sent == False:
+                	total_sent = self.send_data( send_buffer )
+                	if total_sent == send_buffer:
+                		sent = True
 
                 # Update the total number of bytes now sent.
                 total_bytes_sent += len( send_buffer )
@@ -100,7 +116,9 @@ class file_transfer_system:
         # Python automatically discards the leading zeros when read.
         str_msg_len = str( str_msg_len ).zfill( MSG_SIZE )
 
-        self.send_data( str_msg_len.encode() )
+        total_sent = self.send_data( str_msg_len.encode() )
+        
+        return total_sent
 
 
     def send_data( self, data ):

@@ -3,7 +3,7 @@
 # CPSC 471 Assignment 1
 #
 # Kenneth Gunderson, Section 1 (KGunderson@csu.fullerton.edu)
-# Add Name, Section, and Email
+# Sam Gutierrez, Section 2, and sam_gutz@yahoo.com
 # Add Name, Section, and Email
 #
 # FTP client and server.
@@ -171,10 +171,21 @@ def exit_process( cmd_socket ):
 #----------------------
 def send_to_server( cmd_socket, user_input ):
     # Send the size of the message to be transmitted.
-    send_msg_size( cmd_socket, len( user_input ) )
+    
+    sent = False
+    while sent == False:
+    	    total_sent = send_msg_size( cmd_socket, len( user_input ) )
+    	    if total_sent == len(str( user_input ).zfill( MSG_SIZE )):
+    	    	    sent = True
+    
+    sent = False
 
     # Send the command.
-    send_message( cmd_socket, user_input )
+    while sent == False:
+    	    total_sent = send_message( cmd_socket, user_input )
+    	    if total_sent == len(user_input):
+    	    	    sent = True
+    	    
     
 #====================
 # END: send_to_server
@@ -194,7 +205,9 @@ def send_msg_size( cmd_socket, msg_len ):
     str_msg_len = str( str_msg_len ).zfill( MSG_SIZE )
 
     # Send the data.
-    send_message( cmd_socket, str_msg_len )
+    total_sent = send_message( cmd_socket, str_msg_len )
+    
+    return total_sent
     
 #====================
 # END: send_msg_size
